@@ -60,7 +60,7 @@ namespace DaysOffDayOn
 
                         DateTime dataEscolhidaPeloUsuario = new DateTime(ano, mes, DAY);
 
-                        CalcularDiasDeTrabalho(resposta, dataEscolhidaPeloUsuario);
+                        ImprimirDiasDeTrabalho(resposta, dataEscolhidaPeloUsuario);
                     break;
 
                     case 0:
@@ -72,66 +72,90 @@ namespace DaysOffDayOn
 
         }
 
-        private static void CalcularDiasDeTrabalho(string resposta, DateTime dataEscolhida)
+        private static void ImprimirDiasDeTrabalho(string resposta, DateTime dataEscolhida)
+        {
+            Console.WriteLine(CalcularDiasDeTrabalho(resposta, dataEscolhida));
+        }
+
+        private static StringBuilder CalcularDiasDeTrabalho(string resposta, DateTime dataEscolhida)
+        {
+            if (resposta.Equals("S", StringComparison.OrdinalIgnoreCase))
+            {
+                return CalcularDiasComBaseTrabalhaHoje(dataEscolhida);
+            }
+            else if (resposta.Equals("N", StringComparison.OrdinalIgnoreCase))
+            {
+                return CalcularDiasComBaseTrabalhaAmanha(dataEscolhida);
+               
+            }
+            return new StringBuilder("Dias de trabalho não foram calculados com sucesso");
+        }
+
+        private static StringBuilder CalcularDiasComBaseTrabalhaHoje(DateTime dataEscolhida)
         {
             StringBuilder stringBuilder = new StringBuilder();
             DateTime dataAtual = DateTime.Now;
 
             bool mesFoiImprimido = false;
-
             int mesAtual = 0;
             string stringMesImprimido = "";
 
-            if (resposta.Equals("S", StringComparison.OrdinalIgnoreCase))
-            {
-                while (dataAtual.Month <= dataEscolhida.Month
+            while (dataAtual.Month <= dataEscolhida.Month
                         && dataAtual.Year <= dataEscolhida.Year)
-                {
-                    if (!mesFoiImprimido)
-                    {
-                        stringMesImprimido = ImprimirMeses(dataAtual.Month);
-                        mesAtual = dataAtual.Month;
-                        stringBuilder.Append($"{stringMesImprimido}:\n");
-                        mesFoiImprimido = true;
-                    }
-
-                    stringBuilder.Append($"{dataAtual:D}\n");
-                    dataAtual = dataAtual.AddDays(2);
-
-                    if(dataAtual.Month != mesAtual)
-                    {
-                        mesFoiImprimido = false;
-                        stringBuilder.Append($"\n");
-                    }
-
-                }
-            }
-            else if (resposta.Equals("N", StringComparison.OrdinalIgnoreCase))
             {
-                dataAtual = dataAtual.AddDays(1);
-                while (dataAtual.Month <= dataEscolhida.Month
-                       && dataAtual.Year <= dataEscolhida.Year)
+                if (!mesFoiImprimido)
                 {
-                    if (!mesFoiImprimido)
-                    {
-                        stringMesImprimido = ImprimirMeses(dataAtual.Month);
-                        mesAtual = dataAtual.Month;
-                        stringBuilder.Append($"{stringMesImprimido}:\n");
-                        mesFoiImprimido = true;
-                    }
+                    stringMesImprimido = ImprimirMeses(dataAtual.Month);
+                    mesAtual = dataAtual.Month;
+                    stringBuilder.Append($"{stringMesImprimido}:\n");
+                    mesFoiImprimido = true;
+                }
 
-                    stringBuilder.Append($"{dataAtual:D}\n");
-                    dataAtual = dataAtual.AddDays(2);
+                stringBuilder.Append($"{dataAtual:D}\n");
+                dataAtual = dataAtual.AddDays(2);
 
-                    if (dataAtual.Month != mesAtual)
-                    {
-                        mesFoiImprimido = false;
-                        stringBuilder.Append($"\n");
-                    }
+                if (dataAtual.Month != mesAtual)
+                {
+                    mesFoiImprimido = false;
+                    stringBuilder.Append($"\n");
+                }
 
+            }
+
+            return stringBuilder;
+
+        }
+        private static StringBuilder CalcularDiasComBaseTrabalhaAmanha(DateTime dataEscolhida)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            DateTime dataAtual = DateTime.Now;
+
+            bool mesFoiImprimido = false;
+            int mesAtual = 0;
+            string stringMesImprimido = "";
+
+            dataAtual = dataAtual.AddDays(1);
+            while (dataAtual.Month <= dataEscolhida.Month
+                   && dataAtual.Year <= dataEscolhida.Year)
+            {
+                if (!mesFoiImprimido)
+                {
+                    stringMesImprimido = ImprimirMeses(dataAtual.Month);
+                    mesAtual = dataAtual.Month;
+                    stringBuilder.Append($"{stringMesImprimido}:\n");
+                    mesFoiImprimido = true;
+                }
+
+                stringBuilder.Append($"{dataAtual:D}\n");
+                dataAtual = dataAtual.AddDays(2);
+
+                if (dataAtual.Month != mesAtual)
+                {
+                    mesFoiImprimido = false;
+                    stringBuilder.Append($"\n");
                 }
             }
-                Console.WriteLine(stringBuilder);
+            return stringBuilder;
         }
 
         private static int MenuPrincipal()
