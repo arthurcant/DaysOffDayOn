@@ -12,7 +12,7 @@ namespace DaysOffDayOn
             //string line;
             //try
             //{
-            //    StreamReader sr = new StreamReader("C:\\Users\\arthu\\OneDrive - Scai Hub\\Área de Trabalho\\projetos\\DaysOffDayOn\\Sample.txt");
+            //   StreamReader sr = new StreamReader("C:\\Users\\arthu\\OneDrive - Scai Hub\\Área de Trabalho\\projetos\\DaysOffDayOn\\Sample.txt");
             //    line = sr.ReadLine();
 
             //    while(line != null)
@@ -60,7 +60,7 @@ namespace DaysOffDayOn
 
                         DateTime dataEscolhidaPeloUsuario = new DateTime(ano, mes, DAY);
 
-                        ImprimirDiasDeTrabalho(resposta, dataEscolhidaPeloUsuario);
+                        ImprimirDiasCalculadosDeTrabalho(resposta, dataEscolhidaPeloUsuario);
                     break;
 
                     case 0:
@@ -72,7 +72,7 @@ namespace DaysOffDayOn
 
         }
 
-        private static void ImprimirDiasDeTrabalho(string resposta, DateTime dataEscolhida)
+        private static void ImprimirDiasCalculadosDeTrabalho(string resposta, DateTime dataEscolhida)
         {
             Console.WriteLine(CalcularDiasDeTrabalho(resposta, dataEscolhida));
         }
@@ -81,17 +81,17 @@ namespace DaysOffDayOn
         {
             if (resposta.Equals("S", StringComparison.OrdinalIgnoreCase))
             {
-                return CalcularDiasComBaseTrabalhaHoje(dataEscolhida);
+                return CalcularDiasComBaseTrabalhoHoje(dataEscolhida);
             }
             else if (resposta.Equals("N", StringComparison.OrdinalIgnoreCase))
             {
-                return CalcularDiasComBaseTrabalhaAmanha(dataEscolhida);
+                return CalcularDiasComBaseTrabalhoAmanha(dataEscolhida);
                
             }
             return new StringBuilder("Dias de trabalho não foram calculados com sucesso");
         }
 
-        private static StringBuilder CalcularDiasComBaseTrabalhaHoje(DateTime dataEscolhida)
+        private static StringBuilder CalcularDiasComBaseTrabalhoHoje(DateTime dataEscolhida)
         {
             StringBuilder stringBuilder = new StringBuilder();
             DateTime dataAtual = DateTime.Now;
@@ -125,7 +125,7 @@ namespace DaysOffDayOn
             return stringBuilder;
 
         }
-        private static StringBuilder CalcularDiasComBaseTrabalhaAmanha(DateTime dataEscolhida)
+        private static StringBuilder CalcularDiasComBaseTrabalhoAmanha(DateTime dataEscolhida)
         {
             StringBuilder stringBuilder = new StringBuilder();
             DateTime dataAtual = DateTime.Now;
@@ -163,8 +163,8 @@ namespace DaysOffDayOn
             int opcoes;
             Console.WriteLine();
             Console.WriteLine("1 - Calcular os dias que vou trabalhar.");
-            Console.WriteLine("2 - Ajusta o padrão de quando vou trabalhar");
-            Console.WriteLine("3 - Resetar o padrão ");
+            // Console.WriteLine("2 - Ajusta o padrão de quando vou trabalhar");
+            // Console.WriteLine("3 - Resetar o padrão ");
             Console.WriteLine("0 - Sair");
 
             opcoes = int.Parse(Console.ReadLine());
